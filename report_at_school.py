@@ -1,3 +1,4 @@
+# -*- coding:UTF-8 -*-
 import requests
 import datetime
 from bs4 import BeautifulSoup
@@ -6,17 +7,6 @@ import json
 import random
 import sys
 
-def get_cookies(studentInfo):
-    header = {"User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Safari/537.36",
-    }
-    loginUrl = "https://newsso.shu.edu.cn/login/eyJ0aW1lc3RhbXAiOjE2MDY2NTA3MzEzODc1NDIzODYsInJlc3BvbnNlVHlwZSI6ImNvZGUiLCJjbGllbnRJZCI6IldVSFdmcm50bldZSFpmelE1UXZYVUNWeSIsInNjb3BlIjoiMSIsInJlZGlyZWN0VXJpIjoiaHR0cHM6Ly9zZWxmcmVwb3J0LnNodS5lZHUuY24vTG9naW5TU08uYXNweD9SZXR1cm5Vcmw9JTJmIiwic3RhdGUiOiIifQ=="
-    data = {"username": studentInfo[0],
-            "password": studentInfo[1],
-    }
-    response = requests.post(loginUrl,headers=header,data=data,allow_redirects=False)
-    response = requests.get("https://newsso.shu.edu.cn" + response.headers["location"], cookies=response.cookies,allow_redirects=False)
-    response = requests.get(response.headers["location"],allow_redirects=False)
-    return (response.cookies)
 
 
 
@@ -100,31 +90,22 @@ def get_FState(reportData):
     return  F_State_New
 
 
-if __name__ == "__main__":
-    studentId = sys.argv[1]
-    password = sys.argv[2]
-    studentInfoList = [[studentId, password]]
+def main(cookie):
     timeUTC = datetime.datetime.utcnow()
     timeLocal = timeUTC + datetime.timedelta(hours=8)
     date = timeLocal.strftime('%Y - %m - %d')
-    if(timeLocal.hour>=19):
+    if (timeLocal.hour >= 19):
         Time_1or2 = "2"
     else:
         Time_1or2 = "1"
     reportData = {"date": date, "temperature": "", "county": "宝山区",
-                  "campusLocation": "宝山", "Time_1or2": Time_1or2, "location": "具体地址"}  #county：所在区   cmapusLocation:所在校区
+                  "campusLocation": "宝山", "Time_1or2": Time_1or2,
+                  "location": "具体地址"}  # county：所在区   cmapusLocation:所在校区
 
-    for studentInfo in studentInfoList:
-        reportData.update({'temperature':str(round(random.uniform(36, 36.5), 2))})   #随机温度
-        try:
-            cookie = get_cookies(studentInfo)
-        except:
-            print("无法获取学号  " + studentInfo[0] +  "  的cookie,可能是账号密码错误")
-            continue
-        reportSuccess = daily_report(cookie,reportData)
-        if (reportSuccess) == -1 :
-            print(str(studentInfo[0] + "   报送失败"))
-        else :
-            print(str(studentInfo[0] + "   提交成功"))
+    reportSuccess = daily_report(cookie, reportData)
+    if (reportSuccess) == -1:
+        print(str(studentInfo[0] + "   报送失败"))
+    else:
+        print(str(studentInfo[0] + "   提交成功"))
 
 
