@@ -1,8 +1,11 @@
 # SHU_dailyReport
+**仅供交流学习**  
+感谢YMZLT大佬！！
+# 项目简介
 
-## 项目简介
-
-  该项目基于python的request库和bs4库实现上海大学每日两报/每日一报的自动报送。可部署于服务器或者GitHub Action来实现每天自动报送。
+  该项目基于python的request库和bs4库实现上海大学的自动报送。  
+  report.py 用于进行当日报送，可部署于服务器或者GitHub Action来实现每天自动报送。可自行判断是否在校，离校生的报送信息（地址等）根据上次报送信息填写。  
+  delayReport.py 用于一次性补报之前日期（目前没法用，会尽快加上），clone到本地直接运行即可。
 
   - report.py 可自行判断是否在校，离校生的报送信息（地址等）根据上次报送信息填写。（好像还有点问题）
   - oneReport.py 用于离校以后当天的每日一报；
@@ -16,15 +19,10 @@
 1. 把代码clone到本地
 
    ```
-   git clone https://github.com/YMZLT/dailyReport.git
+   https://github.com/zsksmhq/dailyReport.git
    ```
 2. 安装依赖库（见requirements.txt)
-
-3. 运行report.py自动判断在校/离校然后报送
-   ```python
-   python report.py 学号 密码
-   ```
-4. 运行delayReport.py补报
+3. 运行report.py进行当日报送
    ```python
    python delayReport.py 学号 密码 补报天数
    ```
@@ -169,7 +167,7 @@ schedule: # 定时触发
 │  report_leave_school.py 每日一报脚本v1
 │  request2json.py 将截获的post表单转成json格式
 │  requirements.txt 安装依赖
-│  see_FState.py
+│  see_FState.py 用来看fstate值
 │  twoReport.py 每日两报脚本v2
 │
 ├─.github
