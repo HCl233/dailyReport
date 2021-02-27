@@ -112,7 +112,7 @@ if __name__ == "__main__":
     else:
         Time_1or2 = "1"
     reportData = {"date": date, "temperature": "", "county": "宝山区",
-                  "campusLocation": "宝山", "Time_1or2": Time_1or2, "location": "具体地址"}  #county：所在区   cmapusLocation:所在校区
+                  "campusLocation": "宝山", "Time_1or2": Time_1or2, "location": "上海大学"}  #county：所在区   cmapusLocation:所在校区
 
     for studentInfo in studentInfoList:
         reportData.update({'temperature':str(round(random.uniform(36, 36.5), 2))})   #随机温度
